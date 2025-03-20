@@ -55,7 +55,13 @@ public class Std
     }
     //
     public 
-    void nout(Object o)
+    void log(Object o)
+    {
+        cout(o+"\n");
+    }
+    //
+    public 
+    void coutln(Object o)
     {
         cout(o+"\n");
     }
