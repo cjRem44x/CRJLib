@@ -21,12 +21,20 @@ public class Std
     private final SecureRandom SRANDOM = new SecureRandom();
     //
     // final accessable assets
-    public final Malloc mem    = new Malloc();
-    public final Jcrypt jcrypt = new Jcrypt();
-    public final PHash  phash  = new PHash();
+    public final Malloc   mem    = new Malloc();
+    public final Jcrypt   jcrypt = new Jcrypt();
+    public final PHash    phash  = new PHash();
+    public final Terminal term   = new Terminal();
+    public final Parse    pars   = new Parse();
 
 
     // CONSOLE IO //
+    //
+    /*******************************************
+     * 
+     * @param s String to prompt to the console
+     * @return String captured from input
+     */
     //
     public 
     String cin(String s)
@@ -35,17 +43,28 @@ public class Std
         return SCAN.next();
     }
     //
+    /************************************************
+     * 
+     * @param o Object to print (out) to the console
+     */
+    //
     public 
     void cout(Object o)
     {
         System.out.print(o);
     }
+    //
+    public 
+    void nout(Object o)
+    {
+        cout(o+"\n");
+    }
 
     
     // RANDOMS //
     //
-    /** 
-     * @param min Mininmum integer in pseudo-random bounds
+    /******************************************************
+     * @param min Minimum integer in pseudo-random bounds
      * @param max Maximum integer in pseudo-random bounds
      * @return Pseudo-Random Integer
     */
@@ -59,8 +78,8 @@ public class Std
             return min;
     }
     //
-    /** 
-     * @param min Mininmum integer in secure-random bounds
+    /******************************************************
+     * @param min Minimum integer in secure-random bounds
      * @param max Maximum integer in secure-random bounds
      * @return Secure-Random Integer
     */
@@ -74,7 +93,8 @@ public class Std
             return min;
     }
     //
-    /** 
+    /**************************************************************** 
+     * 
      * @return instance of SecureRandom class (from java.security.*)
     */
     //
@@ -87,7 +107,7 @@ public class Std
 
     // URL LINKS //
     //
-    /**
+    /************************************************************
      * 
      * @param url_link representing URL link
      * @return TRUE if method-function succeeds, otherwise FALSE
@@ -122,7 +142,8 @@ public class Std
 
     // OPEN FILE //
     //
-    /**
+    /***********************************************************
+     * 
      * @param f a file to open 
      * @return TRUE if method-function succeeds, otherwise FALSE
      */
@@ -150,5 +171,6 @@ public class Std
         // default return
         return false;
     }
+
 
 }

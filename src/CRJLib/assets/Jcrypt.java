@@ -11,8 +11,13 @@ import java.security.spec.KeySpec;
 
 public class Jcrypt 
 {
-    public static final String ALGO = "AES";
+    // FIELDS //
+    //
+    public final String ALGO = "AES";
     
+
+    // ENCRYPTION //
+    //
     /**
      * Generate a SecretKey from a password string
      * 
@@ -20,7 +25,8 @@ public class Jcrypt
      * @return AES-compatible SecretKey
      * @throws Exception If key generation fails
      */
-    public static 
+    //
+    public  
     SecretKey gen_key(String password) 
     throws Exception 
     {
@@ -35,55 +41,61 @@ public class Jcrypt
         // Convert to AES key
         return new SecretKeySpec(keyBytes, "AES");
     }
-    
+    //
     /**
      * Encrypt a file
      * 
-     * @param in File to encrypt
+     * @param input_path Path to file to encrypt
      * @param sk Secret key for encryption
+     * @param exten Extension for encrypted file
      * @throws Exception If encryption fails
      */
-    public static 
-    void enc_file(File in, SecretKey sk) 
+    //
+    public 
+    void enc_file(String input_path, SecretKey sk, String exten) 
     throws Exception 
     {
+        File in = new File(input_path);
         if (!in.exists()) 
         {
             throw new FileNotFoundException("Input file not found: " + in.getAbsolutePath());
         }
         
-        File enc_file = new File(in.getParent(), in.getName() + ".cr3menc");
+        File enc_file = new File(in.getParent(), in.getName() + exten);
         proc_file(Cipher.ENCRYPT_MODE, in, enc_file, sk);
         in.delete();
     }
-    
+    //
     /**
      * Decrypt a file
      * 
-     * @param enc_file Encrypted file to decrypt
+     * @param enc_path Path to encrypted file to decrypt
      * @param sk Secret key for decryption
+     * @param exten Extension of encrypted file
      * @throws Exception If decryption fails
      */
-    public static 
-    void dec_file(File enc_file, SecretKey sk) 
+    //
+    public  
+    void dec_file(String enc_path, SecretKey sk, String exten) 
     throws Exception 
     {
+        File enc_file = new File(enc_path);
         if (!enc_file.exists()) 
         {
             throw new FileNotFoundException("Encrypted file not found: " + enc_file.getAbsolutePath());
         }
         
-        if (!enc_file.getName().endsWith(".javenc")) 
+        if (!enc_file.getName().endsWith(exten)) 
         {
-            throw new IllegalArgumentException("File does not have .javenc extension: " + enc_file.getName());
+            throw new IllegalArgumentException("File does not have "+exten+" extension: " + enc_file.getName());
         }
         
-        String org = enc_file.getName().replace(".javenc", "");
+        String org = enc_file.getName().replace(exten, "");
         File dec_file = new File(enc_file.getParent(), org);
         proc_file(Cipher.DECRYPT_MODE, enc_file, dec_file, sk);
         enc_file.delete();
     }
-    
+    //
     /**
      * Process a file for encryption or decryption
      * 
@@ -93,7 +105,8 @@ public class Jcrypt
      * @param sk Secret key
      * @throws Exception If process fails
      */
-    private static 
+    //
+    private  
     void proc_file(int cipher_mode, File in_file, File out_file, SecretKey sk) 
     throws Exception 
     {
