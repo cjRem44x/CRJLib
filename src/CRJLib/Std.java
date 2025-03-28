@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2024 CJ Remillard
+ * Copyright (c) 2025 CJ Remillard
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -51,6 +51,7 @@ public class Std
     public final Terminal term   = new Terminal();
     public final Parse    pars   = new Parse();
     public final Str      str    = new Str();
+    public final Scimat   sim    = new Scimat();
 
 
     // CONSOLE IO //

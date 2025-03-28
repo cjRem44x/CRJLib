@@ -83,7 +83,8 @@ public class Main {
         
         // Test Jcrypt functionality
         std.coutln("\n=== Testing Jcrypt Operations ===");
-        try {
+        try 
+        {
             // Create a test file for encryption
             File testFile = new File("test.txt");
             java.io.FileWriter writer = new java.io.FileWriter(testFile);
@@ -100,7 +101,8 @@ public class Main {
             // Clean up test files
             new File("test.txt.enc").delete();
             std.coutln("Encryption/Decryption test completed successfully");
-        } catch (Exception e) {
+        } catch (Exception e) 
+        {
             std.coutln("Error in encryption test: " + e.getMessage());
         }
         
@@ -148,5 +150,44 @@ public class Main {
         }
         
         std.coutln("\n=== All Tests Completed ===");
+
+
+        // MEM ALLOC TESTS //
+        long p_pi = std.mem.alloc(std.mem.DOUBLE);
+        std.mem.wdouble(p_pi, 3.141592653);
+
+
+        // SCIMAT TESTS //
+        std.coutln("\n=== Testing Math Operations ===");
+        std.coutln("Square root of 25: " + std.sim.sqrt(25));
+        std.coutln("Square root of -25: " + std.sim.sqrt(-25));
+        std.coutln("Square root of 0: " + std.sim.sqrt(0));
+        std.coutln("Square root of 1: " + std.sim.sqrt(1));
+        
+        std.log("Square root of Pi ("+std.mem.rdouble(p_pi)+"): " + std.sim.sqrt(std.mem.rdouble(p_pi)));
+        std.mem.free(p_pi);
+
+
+        // STR TESTS //
+        std.coutln("\n=== Testing String Operations ===");
+        final var s = std.str.ConstMemStr(hashedPassword);
+        std.coutln("String length: " + s.len());
+        s.disp();
+        s.set("Hello, World!");
+        std.coutln("String length: " + s.len());
+        s.disp();
+        s.free();
+
+        final var m = std.str.MutMemStr("Hello, World!");
+        std.coutln("String length: " + m.len());
+        std.log("String: " + m.get());
+        m.cat("Hello, World!");
+        std.log("String: " + m.get());
+        m.rem(0);
+        std.log("String: " + m.get());
+        m.index('H', 0);
+        std.log("String: " + m.get());
+        m.free();
+
     }
 }
