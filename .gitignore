@@ -22,3 +22,24 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Testing files
+test-output/
+test-results/
+*.test
+*.testresult
+coverage/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+__pycache__/
+*.pyc
