@@ -47,12 +47,12 @@ public class Malloc
     // FIELDS //
     //
     /** Size constants for primitive types in bytes */
-    public final  int    BYTE   = 1,  // 1 byte
-                        SHORT  = 2,  // 2 bytes
-                        INT    = 4,  // 4 bytes
-                        LONG   = 8,  // 8 bytes
-                        FLOAT  = 4,  // 4 bytes
-                        DOUBLE = 8;  // 8 bytes
+    public static final  int   BYTE   = 1,  // 1 byte
+                               SHORT  = 2,  // 2 bytes
+                               INT    = 4,  // 4 bytes
+                               LONG   = 8,  // 8 bytes
+                               FLOAT  = 4,  // 4 bytes
+                               DOUBLE = 8;  // 8 bytes
     /** Unsafe instance for direct memory operations */
     private final Unsafe UNSAFE = get_unsafe();
 
