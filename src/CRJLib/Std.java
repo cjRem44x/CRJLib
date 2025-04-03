@@ -52,6 +52,7 @@ public class Std
     public final Parse    pars   = new Parse();
     public final Str      str    = new Str();
     public final Scimat   sim    = new Scimat();
+    public final FIO      fi     = new FIO();
 
 
     // CONSOLE IO //
@@ -146,7 +147,7 @@ public class Std
      */
     //
     public 
-    boolean open_url_link(String url_link)
+    boolean open_url(String url_link)
     {
         try 
         {
@@ -181,7 +182,7 @@ public class Std
      */
     //
     public 
-    boolean open_file_on_desktop(File f)
+    boolean open_file(File f)
     {
         try 
         {

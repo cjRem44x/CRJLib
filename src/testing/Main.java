@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 CJ Remillard
+ * Copyright (c) 2025 CJ Remillard
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -134,7 +134,7 @@ public class Main {
         
         // Test URL handling
         std.coutln("\n=== Testing URL Handling ===");
-        boolean urlSuccess = std.open_url_link("https://www.google.com");
+        boolean urlSuccess = std.open_url("https://www.google.com");
         std.coutln("URL opening " + (urlSuccess ? "succeeded" : "failed"));
         
         // Test File operations
@@ -142,7 +142,7 @@ public class Main {
         File testFile = new File("test.txt");
         try {
             testFile.createNewFile();
-            boolean fileSuccess = std.open_file_on_desktop(testFile);
+            boolean fileSuccess = std.open_file(testFile);
             std.coutln("File opening " + (fileSuccess ? "succeeded" : "failed"));
             testFile.delete();
         } catch (Exception e) {
@@ -188,6 +188,22 @@ public class Main {
         m.index('H', 0);
         std.log("String: " + m.get());
         m.free();
+
+
+        // SCIMAT TESTS //
+        std.coutln("\n=== Testing Math Operations ===");
+        std.coutln("Square root of 25: " + std.sim.sqrt(25) + " = " + Math.sqrt(25));
+        std.coutln("Square root of -25: " + std.sim.sqrt(-25) + " = " + Math.sqrt(-25));
+        std.coutln("Square root of 0: " + std.sim.sqrt(0) + " = " + Math.sqrt(0));
+        std.coutln("Square root of 1: " + std.sim.sqrt(1) + " = " + Math.sqrt(1));
+        std.coutln("Square root of Pi ("+Math.PI+"): " + std.sim.sqrt(Math.PI) + " = " + Math.sqrt(Math.PI));
+
+    
+        // FIO TESTS //
+        std.coutln("\n=== Testing File Operations ===");
+        std.fi.write_file("test.txt", "Hello, World!");
+        std.coutln("Reading from file: " + std.fi.read_file("test.txt"));
+        std.fi.del_file("test.txt");
 
     }
 }

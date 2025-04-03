@@ -4,6 +4,12 @@
  * Copyright (c) 2025 CJ Remillard
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
 */
 // AUTHOR: CJ Remillard //
 //
@@ -12,6 +18,10 @@ package CRJLib.assets;
 /**
  * Scimat - Scientific Mathematics Utility Class
  * Provides mathematical operations with improved accuracy and safety checks.
+ * 
+ * @author CJ Remillard
+ * @version 1.0
+ * @since 2025-04-02
  */
 public class Scimat 
 {
@@ -25,7 +35,8 @@ public class Scimat
      * @return The square root of n, or 0.0 for negative numbers
      * @throws IllegalArgumentException if the input is NaN or infinite
      */
-    public double sqrt(double n) 
+    public 
+    double sqrt(double n) 
     {
         // Input validation
         if (Double.isNaN(n) || Double.isInfinite(n)) 
@@ -41,14 +52,15 @@ public class Scimat
         double prevGuess;
         int iterations = 0;
 
-        do {
+        do 
+        {
             prevGuess = guess;
             guess = (guess + n / guess) / 2.0;
             iterations++;
 
             // Check for convergence or maximum iterations
-            if (iterations >= MAX_ITERATIONS || 
-                Math.abs(guess - prevGuess) <= EPSILON * Math.abs(guess)) {
+            if (iterations >= MAX_ITERATIONS || Math.abs(guess - prevGuess) <= EPSILON * Math.abs(guess)) 
+            {
                 break;
             }
         } while (true);
@@ -62,8 +74,11 @@ public class Scimat
      * @param n The number to calculate the absolute value of
      * @return The absolute value of n
      */
-    public double abs(double n)
+    public 
+    double abs(double n)
     {
         return Math.abs(n);  // Using Math.abs for better performance and accuracy
     }
+
+
 }

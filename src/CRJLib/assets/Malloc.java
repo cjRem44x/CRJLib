@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 CJ Remillard
+ * Copyright (c) 2025 CJ Remillard
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ import sun.misc.Unsafe;
 import java.lang.reflect.Field;
 
 /**
- * Malloc class provides direct memory management functionality using sun.misc.Unsafe.
+ * @description Malloc class provides direct memory management functionality using sun.misc.Unsafe.
  * This class allows for low-level memory operations including allocation, deallocation,
  * and direct memory access for various primitive types.
  * 
@@ -56,6 +56,7 @@ public class Malloc
     /** Unsafe instance for direct memory operations */
     private final Unsafe UNSAFE = get_unsafe();
 
+
     /**
      * Allocate memory of specified size.
      * 
@@ -73,6 +74,7 @@ public class Malloc
         return 0;
     }
 
+
     /**
      * Free allocated memory.
      * 
@@ -83,6 +85,7 @@ public class Malloc
     {
         UNSAFE.freeMemory(p);
     }
+
 
     /**
      * Read a byte from memory.
@@ -96,6 +99,7 @@ public class Malloc
         return UNSAFE.getByte(p);
     }
 
+
     /**
      * Write a byte to memory.
      * 
@@ -107,6 +111,7 @@ public class Malloc
     {
         UNSAFE.putByte(p, (byte)b);
     }
+
 
     /**
      * Read a short from memory.
@@ -120,6 +125,7 @@ public class Malloc
         return UNSAFE.getShort(p);
     }
 
+
     /**
      * Write a short to memory.
      * 
@@ -131,6 +137,7 @@ public class Malloc
     {
         UNSAFE.putShort(p, (short)s);
     }
+
 
     /**
      * Read an integer from memory.
@@ -144,6 +151,7 @@ public class Malloc
         return UNSAFE.getInt(p);
     }
 
+
     /**
      * Write an integer to memory.
      * 
@@ -155,6 +163,7 @@ public class Malloc
     {
         UNSAFE.putInt(p, (int)i);
     }
+
 
     /**
      * Read a long from memory.
@@ -168,6 +177,7 @@ public class Malloc
         return UNSAFE.getLong(p);
     }
 
+
     /**
      * Write a long to memory.
      * 
@@ -179,6 +189,7 @@ public class Malloc
     {
         UNSAFE.putLong(p, (long)l);
     }
+
 
     /**
      * Read a float from memory.
@@ -192,6 +203,7 @@ public class Malloc
         return UNSAFE.getFloat(p);
     }
 
+
     /**
      * Write a float to memory.
      * 
@@ -203,6 +215,7 @@ public class Malloc
     {
         UNSAFE.putFloat(p, (float)f);
     }
+
 
     /**
      * Read a double from memory.
@@ -216,6 +229,7 @@ public class Malloc
         return UNSAFE.getDouble(p);
     }
 
+
     /**
      * Write a double to memory.
      * 
@@ -227,6 +241,7 @@ public class Malloc
     {
         UNSAFE.putDouble(p, (double)d);
     }
+
 
     /**
      * Get the Unsafe instance for direct memory operations.
@@ -258,4 +273,6 @@ public class Malloc
 
         return null;
     }  
+
+
 }
