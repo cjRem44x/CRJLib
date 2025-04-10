@@ -27,6 +27,7 @@
 package CRJLib;
 
 import java.awt.*;
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -203,6 +204,21 @@ public class Std
 
         // default return
         return false;
+    }
+
+    
+    public 
+    String seccin(String prompt) 
+    {
+        Console con = System.console();
+
+        if (con != null) {
+            char[] c = con.readPassword(prompt);
+            return new String(c);
+        } else {
+            log("Failed to use Console.readPassord()!");
+        }
+        return "";
     }
 
 
