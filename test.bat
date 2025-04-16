@@ -28,7 +28,7 @@ if not exist bin mkdir bin
 :: src/CRJLib/Std.java: Main library interface
 :: src/CRJLib/assets/*.java: All asset classes
 :: src/testing/Main.java: Test program
-javac -d bin src/CRJLib/Std.java src/CRJLib/assets/*.java src/testing/Main.java
+javac -d bin src/CRJLib/Std.java src/CRJLib/assets/*.java src/testing/*.java
 
 :: Check if compilation was successful
 :: errorlevel 1 indicates compilation failure
@@ -45,7 +45,8 @@ echo.
 
 :: Run the test program
 :: -cp bin: Set classpath to bin directory
-java -cp bin testing.Main
+::java -cp bin testing.Main
+java -cp bin testing.WinTest
 
 echo.
 echo Test execution completed.

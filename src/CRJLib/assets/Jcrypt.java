@@ -92,7 +92,7 @@ public class Jcrypt
      * enc_file("secret.txt", key, ".enc") creates "secret.txt.enc"
      */
     public 
-    void enc_file(String input_path, SecretKey sk, Str exten) 
+    void enc_file(String input_path, SecretKey sk, String exten) 
     throws Exception 
     {
         File in = new File(input_path);
