@@ -17,6 +17,7 @@
 :: Version: 1.0
 :: ==============================================
 
+cd ..
 echo Compiling CRJLib test program...
 
 :: Create bin directory if it doesn't exist
