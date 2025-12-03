@@ -1,0 +1,15 @@
+CRJLib\assets\Parse.class
+CRJLib\Std.class
+CRJLib\assets\Str$MutMemStr.class
+CRJLib\assets\FIO.class
+CRJLib\assets\Codec.class
+CRJLib\assets\Http$HttpResponse.class
+CRJLib\assets\Str.class
+CRJLib\assets\Jcrypt.class
+CRJLib\assets\Malloc.class
+CRJLib\assets\Str$ConstMemStr.class
+CRJLib\assets\PHash.class
+CRJLib\assets\Scimat.class
+CRJLib\assets\Terminal.class
+CRJLib\assets\Http.class
+CRJLib\assets\Validator.class

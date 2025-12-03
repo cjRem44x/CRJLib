@@ -93,7 +93,7 @@ public class Main {
             
             // Generate encryption key and encrypt the file
             SecretKey key = std.jcrypt.gen_key("testPassword123");
-            std.jcrypt.enc_file("test.txt", key, std.str);
+            std.jcrypt.enc_file("test.txt", key, ".enc");
             
             // Decrypt the file
             std.jcrypt.dec_file("test.txt.enc", key, ".enc");

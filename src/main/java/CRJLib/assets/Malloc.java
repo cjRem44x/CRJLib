@@ -26,22 +26,69 @@ import sun.misc.Unsafe;
 import java.lang.reflect.Field;
 
 /**
- * @description Malloc class provides direct memory management functionality using sun.misc.Unsafe.
+ * Malloc class provides direct memory management functionality using sun.misc.Unsafe.
  * This class allows for low-level memory operations including allocation, deallocation,
  * and direct memory access for various primitive types.
- * 
- * Features:
- * - Direct memory allocation and deallocation
- * - Read/write operations for primitive types
- * - Memory size constants
- * - Unsafe memory access
- * 
- * Warning: This class uses sun.misc.Unsafe which is not recommended for production use
- * as it can lead to crashes and undefined behavior if used incorrectly.
- * 
+ *
+ * <p><strong>&#x26A0; DANGER - USE AT YOUR OWN RISK &#x26A0;</strong>
+ *
+ * <p><strong>THIS CLASS IS EXTREMELY DANGEROUS AND DEPRECATED</strong>
+ *
+ * <p>This class uses {@code sun.misc.Unsafe}, which is:
+ * <ul>
+ * <li><strong>NOT part of the public Java API</strong> - May be removed in future Java versions</li>
+ * <li><strong>CAN CRASH THE JVM</strong> - Invalid memory access causes immediate crashes</li>
+ * <li><strong>BYPASSES ALL JAVA SAFETY</strong> - No bounds checking, no type safety, no garbage collection</li>
+ * <li><strong>NON-PORTABLE</strong> - Behavior varies across JVM implementations and platforms</li>
+ * <li><strong>REMOVED IN NEWER JAVA</strong> - Java 9+ restricts access, Java 17+ requires --add-opens</li>
+ * <li><strong>CAUSES MEMORY LEAKS</strong> - Allocated memory is never freed by GC</li>
+ * <li><strong>UNDEFINED BEHAVIOR</strong> - Can corrupt JVM internal state</li>
+ * </ul>
+ *
+ * <p><strong>Potential Problems:</strong>
+ * <ul>
+ * <li>Segmentation faults and JVM crashes</li>
+ * <li>Memory corruption and data races</li>
+ * <li>Security vulnerabilities</li>
+ * <li>Memory leaks if {@link #free(long)} is not called</li>
+ * <li>Use-after-free bugs</li>
+ * <li>Buffer overflows</li>
+ * </ul>
+ *
+ * <p><strong>Why This Class Exists:</strong><br>
+ * This is an educational/experimental class to demonstrate low-level memory operations.
+ * It should <strong>NEVER</strong> be used in production code.
+ *
+ * <p><strong>Better Alternatives:</strong>
+ * <ul>
+ * <li>{@link java.nio.ByteBuffer#allocateDirect(int)} - For off-heap memory</li>
+ * <li>{@link java.lang.foreign} API (Java 19+) - Modern replacement for Unsafe</li>
+ * <li>JNI with native C/C++ - If you truly need low-level control</li>
+ * <li>Regular Java objects - Let the JVM manage memory safely</li>
+ * </ul>
+ *
+ * <p><strong>If You Still Choose To Use This:</strong>
+ * <ul>
+ * <li>ALWAYS call {@link #free(long)} for every {@link #alloc(int)}</li>
+ * <li>NEVER use freed memory addresses</li>
+ * <li>NEVER access memory beyond allocated bounds</li>
+ * <li>Test extensively in a sandbox environment</li>
+ * <li>Be prepared for production crashes</li>
+ * </ul>
+ *
+ * <p><strong>Java Version Compatibility:</strong><br>
+ * Java 8: Works<br>
+ * Java 9-16: Requires {@code --add-opens java.base/sun.misc=ALL-UNNAMED}<br>
+ * Java 17+: May not work at all, strongly discouraged
+ *
  * @author CJ Remillard
  * @version 1.0
+ * @deprecated This class uses the dangerous and deprecated {@code sun.misc.Unsafe} API.
+ *             Use {@link java.nio.ByteBuffer#allocateDirect(int)} or the Foreign Function
+ *             &amp; Memory API (Java 19+) instead. This class may stop working in future Java versions.
  */
+@Deprecated(since = "1.0", forRemoval = false)
+@SuppressWarnings({"removal", "sunapi", "restricted"})
 public class Malloc 
 { 
     // FIELDS //

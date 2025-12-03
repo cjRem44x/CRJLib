@@ -46,14 +46,17 @@ public class Std
     private final SecureRandom SRANDOM = new SecureRandom();
     //
     // final accessable assets
-    public final Malloc   mem    = new Malloc();
-    public final Jcrypt   jcrypt = new Jcrypt();
-    public final PHash    phash  = new PHash();
-    public final Terminal term   = new Terminal();
-    public final Parse    pars   = new Parse();
-    public final Str      str    = new Str();
-    public final Scimat   sim    = new Scimat();
-    public final FIO      fi     = new FIO();
+    public final Malloc    mem    = new Malloc();
+    public final Jcrypt    jcrypt = new Jcrypt();
+    public final PHash     phash  = new PHash();
+    public final Terminal  term   = new Terminal();
+    public final Parse     pars   = new Parse();
+    public final Str       str    = new Str();
+    public final Scimat    sim    = new Scimat();
+    public final FIO       fi     = new FIO();
+    public final Http      http   = new Http();
+    public final Validator valid  = new Validator();
+    public final Codec     codec  = new Codec();
 
 
     // CONSOLE IO //

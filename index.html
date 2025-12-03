@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRJLib - Professional Java Utility Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --dark-red: #8B0000;
+            --crimson: #DC143C;
+            --red: #FF0000;
+            --light-red: #FF6B6B;
+            --coral: #FF4444;
+            --pink-red: #FF1744;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--black);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(circle at 20% 50%, var(--dark-red) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, var(--crimson) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, var(--red) 0%, transparent 50%),
+                radial-gradient(circle at 60% 90%, var(--pink-red) 0%, transparent 50%);
+            animation: drift 20s ease-in-out infinite;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, -50px); }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, var(--black) 100%);
+            border-bottom: 3px solid var(--dark-red);
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg,
+                var(--dark-red) 0%,
+                var(--crimson) 25%,
+                var(--red) 50%,
+                var(--crimson) 75%,
+                var(--dark-red) 100%);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            text-align: center;
+        }
+
+        .logo h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--light-red), var(--crimson), var(--dark-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(220, 20, 60, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--light-red);
+            margin-top: 0.5rem;
+            font-weight: 300;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: var(--dark-red);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            border: 1px solid var(--crimson);
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--dark-gray);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(220, 20, 60, 0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        nav a:hover {
+            background: var(--dark-red);
+            border-color: var(--crimson);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--black) 0%, var(--dark-gray) 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--light-red);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid;
+        }
+
+        .btn-primary {
+            background: var(--dark-red);
+            color: white;
+            border-color: var(--crimson);
+        }
+
+        .btn-primary:hover {
+            background: var(--crimson);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light-red);
+            border-color: var(--light-red);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-red);
+            color: var(--black);
+            transform: translateY(-3px);
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 4rem 0;
+            background: var(--dark-gray);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--light-red), var(--crimson));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--black);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 2px solid var(--dark-red);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--dark-red), var(--crimson), var(--red));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--crimson);
+            box-shadow: 0 10px 40px rgba(220, 20, 60, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--light-red);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: #bbb;
+            line-height: 1.8;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-list li {
+            padding: 0.3rem 0;
+            color: #999;
+        }
+
+        .feature-list li::before {
+            content: '▸ ';
+            color: var(--crimson);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* Code Section */
+        .code-example {
+            padding: 4rem 0;
+            background: var(--black);
+        }
+
+        .code-container {
+            background: var(--dark-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid var(--dark-red);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .code-header {
+            background: linear-gradient(135deg, var(--dark-red), var(--crimson));
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        pre {
+            padding: 2rem;
+            overflow-x: auto;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .keyword { color: var(--light-red); }
+        .string { color: #98C379; }
+        .comment { color: #5C6370; font-style: italic; }
+        .function { color: #61AFEF; }
+        .number { color: #D19A66; }
+
+        /* Installation */
+        .installation {
+            padding: 4rem 0;
+            background: var(--dark-gray);
+        }
+
+        .install-steps {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .install-step {
+            background: var(--black);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--crimson);
+        }
+
+        .install-step h3 {
+            color: var(--light-red);
+            margin-bottom: 1rem;
+        }
+
+        .install-code {
+            background: var(--dark-gray);
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border: 1px solid var(--dark-red);
+        }
+
+        /* Stats */
+        .stats {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-card {
+            padding: 2rem;
+            background: var(--black);
+            border-radius: 10px;
+            border: 2px solid var(--dark-red);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--light-red), var(--crimson));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #999;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            padding: 3rem 0;
+            border-top: 3px solid var(--dark-red);
+            text-align: center;
+        }
+
+        .footer-content {
+            color: #777;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--light-red);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--crimson);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>CRJLib</h1>
+                <p class="tagline">Professional Java Utility Library</p>
+                <span class="version-badge">v2.0.0</span>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#examples">Examples</a></li>
+                <li><a href="#docs">Documentation</a></li>
+                <li><a href="https://github.com/cjremillard/CRJLib">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Build Faster with CRJLib</h2>
+                <p>A comprehensive, professional-grade Java utility library with 11 powerful modules, 150+ methods, and zero external dependencies.</p>
+                <div class="cta-buttons">
+                    <a href="#installation" class="btn btn-primary">Get Started</a>
+                    <a href="https://github.com/cjremillard/CRJLib" class="btn btn-secondary">View on GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">Utility Modules</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Methods</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Dependencies</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Pure Java</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔢</div>
+                    <h3>Scimat - Mathematics</h3>
+                    <p>Comprehensive mathematical operations library</p>
+                    <ul class="feature-list">
+                        <li>Trigonometry (sin, cos, tan, arc)</li>
+                        <li>Logarithms & Exponentials</li>
+                        <li>Number Theory (GCD, LCM, Prime)</li>
+                        <li>Distance Calculations</li>
+                        <li>40+ Functions</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Parse - Type Conversion</h3>
+                    <p>Safe and flexible parsing utilities</p>
+                    <ul class="feature-list">
+                        <li>Optional-based parsing</li>
+                        <li>Hex & Binary support</li>
+                        <li>Array parsing</li>
+                        <li>Boolean with flexible input</li>
+                        <li>No exceptions thrown</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Http - Web Requests</h3>
+                    <p>Lightweight HTTP client for APIs</p>
+                    <ul class="feature-list">
+                        <li>GET, POST, PUT, DELETE</li>
+                        <li>Custom headers</li>
+                        <li>Timeout configuration</li>
+                        <li>Response handling</li>
+                        <li>URL encoding utilities</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>Validator - Input Validation</h3>
+                    <p>Comprehensive validation suite</p>
+                    <ul class="feature-list">
+                        <li>Email & URL validation</li>
+                        <li>Credit card (Luhn)</li>
+                        <li>Password strength</li>
+                        <li>Phone numbers</li>
+                        <li>Date formats</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Jcrypt - Encryption</h3>
+                    <p>AES file encryption with PBKDF2</p>
+                    <ul class="feature-list">
+                        <li>File encryption/decryption</li>
+                        <li>Secure key derivation</li>
+                        <li>Custom salt support</li>
+                        <li>PBKDF2 with SHA-256</li>
+                        <li>Production-ready security</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>PHash - Password Hashing</h3>
+                    <p>Secure password hashing & verification</p>
+                    <ul class="feature-list">
+                        <li>PBKDF2 algorithm</li>
+                        <li>Automatic salt generation</li>
+                        <li>Password verification</li>
+                        <li>Rainbow table resistant</li>
+                        <li>Base64 encoded output</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔤</div>
+                    <h3>Codec - Encoding</h3>
+                    <p>Encoding and decoding utilities</p>
+                    <ul class="feature-list">
+                        <li>Base64 (standard & URL-safe)</li>
+                        <li>Hexadecimal conversion</li>
+                        <li>Binary strings</li>
+                        <li>Byte array utilities</li>
+                        <li>Integer/Long conversions</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h3>FIO - File Operations</h3>
+                    <p>Simple file I/O operations</p>
+                    <ul class="feature-list">
+                        <li>Read/Write files</li>
+                        <li>Delete files</li>
+                        <li>UTF-8 encoding</li>
+                        <li>Clean API</li>
+                        <li>Error handling</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Terminal - Command Execution</h3>
+                    <p>Execute system commands safely</p>
+                    <ul class="feature-list">
+                        <li>Command execution</li>
+                        <li>Output capture</li>
+                        <li>Error handling</li>
+                        <li>Process management</li>
+                        <li>Exit code checking</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔤</div>
+                    <h3>Str - String Utilities</h3>
+                    <p>String manipulation & operations</p>
+                    <ul class="feature-list">
+                        <li>Length calculations</li>
+                        <li>Memory-based strings</li>
+                        <li>String builders</li>
+                        <li>Unicode support</li>
+                        <li>Efficient operations</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚠️</div>
+                    <h3>Malloc - Memory (Deprecated)</h3>
+                    <p>Low-level memory management</p>
+                    <ul class="feature-list">
+                        <li>Direct memory allocation</li>
+                        <li>Primitive type operations</li>
+                        <li><strong>Educational use only</strong></li>
+                        <li>Uses sun.misc.Unsafe</li>
+                        <li>Not for production</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="examples" class="code-example">
+        <div class="container">
+            <h2 class="section-title">Quick Examples</h2>
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="code-dot dot-red"></span>
+                    <span class="code-dot dot-yellow"></span>
+                    <span class="code-dot dot-green"></span>
+                    <span style="margin-left: 1rem; color: white;">Example.java</span>
+                </div>
+                <pre><code><span class="keyword">import</span> CRJLib.Std;
+
+<span class="keyword">public class</span> <span class="function">Example</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+        Std std = <span class="keyword">new</span> <span class="function">Std</span>();
+
+        <span class="comment">// Mathematics</span>
+        <span class="keyword">double</span> result = std.sim.<span class="function">squareRoot</span>(<span class="number">25</span>);
+        <span class="keyword">long</span> factorial = std.sim.<span class="function">factorial</span>(<span class="number">5</span>);
+        <span class="keyword">boolean</span> isPrime = std.sim.<span class="function">isPrime</span>(<span class="number">17</span>);
+
+        <span class="comment">// Parsing with safety</span>
+        <span class="keyword">int</span> num = std.pars.<span class="function">toInt</span>(<span class="string">"123"</span>, <span class="number">0</span>);
+        Optional&lt;Integer&gt; safe = std.pars.<span class="function">tryParseInt</span>(<span class="string">"abc"</span>);
+
+        <span class="comment">// HTTP requests</span>
+        HttpResponse response = std.http.<span class="function">get</span>(<span class="string">"https://api.example.com"</span>);
+        <span class="keyword">if</span> (response.<span class="function">isSuccess</span>()) {
+            std.<span class="function">coutln</span>(response.<span class="function">getBody</span>());
+        }
+
+        <span class="comment">// Validation</span>
+        <span class="keyword">boolean</span> valid = std.valid.<span class="function">isValidEmail</span>(<span class="string">"user@example.com"</span>);
+        <span class="keyword">boolean</span> strong = std.valid.<span class="function">isStrongPassword</span>(<span class="string">"MyP@ssw0rd!"</span>);
+
+        <span class="comment">// Encoding</span>
+        String encoded = std.codec.<span class="function">toBase64</span>(<span class="string">"secret"</span>);
+        String hex = std.codec.<span class="function">toHex</span>(<span class="string">"data"</span>);
+    }
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section id="installation" class="installation">
+        <div class="container">
+            <h2 class="section-title">Installation</h2>
+            <div class="install-steps">
+                <div class="install-step">
+                    <h3>1. Clone the Repository</h3>
+                    <div class="install-code">
+                        git clone https://github.com/cjremillard/CRJLib.git<br>
+                        cd CRJLib
+                    </div>
+                </div>
+
+                <div class="install-step">
+                    <h3>2. Build with Maven</h3>
+                    <div class="install-code">
+                        mvn clean install
+                    </div>
+                </div>
+
+                <div class="install-step">
+                    <h3>3. Add to Your Project</h3>
+                    <p>Add this dependency to your <code>pom.xml</code>:</p>
+                    <div class="install-code">
+&lt;dependency&gt;<br>
+&nbsp;&nbsp;&lt;groupId&gt;com.cjremillard&lt;/groupId&gt;<br>
+&nbsp;&nbsp;&lt;artifactId&gt;crjlib&lt;/artifactId&gt;<br>
+&nbsp;&nbsp;&lt;version&gt;2.0.0&lt;/version&gt;<br>
+&lt;/dependency&gt;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <ul class="footer-links">
+                    <li><a href="https://github.com/cjremillard/CRJLib">GitHub</a></li>
+                    <li><a href="https://github.com/cjremillard/CRJLib/issues">Report Issues</a></li>
+                    <li><a href="CHANGELOG.md">Changelog</a></li>
+                    <li><a href="LICENSE">License (MIT)</a></li>
+                </ul>
+                <p>&copy; 2025 CJ Remillard. Licensed under MIT License.</p>
+                <p style="color: #555; margin-top: 1rem;">Built with ❤️ and Java</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

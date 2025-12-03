@@ -29,20 +29,33 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
+import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 
 /**
  * Jcrypt class provides file encryption and decryption functionality using AES encryption.
  * This class implements secure file encryption with password-based key derivation
  * and supports both encryption and decryption of files.
- * 
- * Features:
- * - AES encryption/decryption
- * - Password-based key derivation (PBKDF2)
- * - File encryption/decryption
- * - Secure key generation
- * - Automatic file cleanup
- * 
+ *
+ * <p><strong>SECURITY WARNING:</strong> This class uses a FIXED salt by default for
+ * backwards compatibility with existing encrypted files. For production use with new
+ * files, you should:
+ * <ul>
+ * <li>Generate a unique random salt for each file</li>
+ * <li>Store the salt alongside the encrypted file (prepended or in metadata)</li>
+ * <li>Use {@link #gen_key(String, byte[])} with your own salt management</li>
+ * </ul>
+ * Using a fixed salt allows attackers to precompute rainbow tables and weakens security.
+ *
+ * <p>Features:
+ * <ul>
+ * <li>AES encryption/decryption</li>
+ * <li>Password-based key derivation (PBKDF2)</li>
+ * <li>File encryption/decryption</li>
+ * <li>Secure key generation with custom salt support</li>
+ * <li>Automatic file cleanup</li>
+ * </ul>
+ *
  * @author CJ Remillard
  * @version 1.0
  */
@@ -54,29 +67,74 @@ public class Jcrypt
     public final String ALGO = "AES";
     
     /**
-     * Generate a SecretKey from a password string using PBKDF2.
+     * Generate a SecretKey from a password string using PBKDF2 with a fixed salt.
      * This method creates a cryptographically secure key suitable for AES encryption.
-     * 
+     *
+     * <p><strong>SECURITY WARNING:</strong> This method uses a FIXED salt ("RandomSalt123")
+     * for backwards compatibility with existing encrypted files. This is NOT secure for
+     * production use as it allows rainbow table attacks. For new files, use
+     * {@link #gen_key(String, byte[])} with a unique random salt per file.
+     *
      * @param password Password to use for key generation
      * @return AES-compatible SecretKey
      * @throws Exception If key generation fails
-     * 
-     * Note: Uses a fixed salt for demonstration. In production, use a unique salt per file.
+     *
+     * @see #gen_key(String, byte[])
+     * @see #generateRandomSalt()
      */
-    public  
-    SecretKey gen_key(String password) 
-    throws Exception 
+    public
+    SecretKey gen_key(String password)
+    throws Exception
     {
-        // Use a consistent salt (for production, consider storing salt with encrypted files)
+        // SECURITY WARNING: Using fixed salt for backwards compatibility only
         byte[] salt = "RandomSalt123".getBytes();
-        
+        return gen_key(password, salt);
+    }
+
+    /**
+     * Generate a SecretKey from a password string using PBKDF2 with a custom salt.
+     * This method creates a cryptographically secure key suitable for AES encryption.
+     *
+     * <p><strong>Recommended Usage:</strong> Generate a unique random salt for each file
+     * using {@link #generateRandomSalt()}, store it alongside the encrypted file, and
+     * use the same salt when decrypting.
+     *
+     * @param password Password to use for key generation
+     * @param salt Unique salt bytes (recommended: 16 bytes from {@link #generateRandomSalt()})
+     * @return AES-compatible SecretKey
+     * @throws Exception If key generation fails
+     *
+     * @see #generateRandomSalt()
+     */
+    public
+    SecretKey gen_key(String password, byte[] salt)
+    throws Exception
+    {
         // Generate PBE key using PBKDF2
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
         byte[] keyBytes = factory.generateSecret(spec).getEncoded();
-        
+
         // Convert to AES key
         return new SecretKeySpec(keyBytes, "AES");
+    }
+
+    /**
+     * Generate a cryptographically secure random salt for key derivation.
+     * Use this method to create unique salts for each file encryption operation.
+     *
+     * <p>The generated salt should be stored alongside the encrypted file
+     * (e.g., prepended to the file or stored in metadata) so it can be used
+     * during decryption.
+     *
+     * @return 16 bytes of cryptographically secure random data
+     */
+    public
+    byte[] generateRandomSalt()
+    {
+        byte[] salt = new byte[16];
+        new SecureRandom().nextBytes(salt);
+        return salt;
     }
 
     /**
